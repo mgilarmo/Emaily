@@ -20,24 +20,33 @@ passport.use(
   new GoogleStrategy(
     {
       clientID: keys.googleClientID,
-      clientSecret: keys.googleClentSecret,
+      clientSecret: keys.googleClientSecret,
       callbackURL: '/auth/google/callback',
       proxy: true
     }, 
-    (accessToken, refreshToken, profile, done) => {
-      // anytime we reach out to database, we initiate an async action
-      // using a promise looks like this:
-      User.findOne({googleId: profile.id}).then((existingUser) => {
-        if(existingUser) {
-          done(null, existingUser);
-        } else {
-          // calling "new User()" creates a new mongoose "Model Instance" representing a single record inside our collection
-          new User({googleId: profile.id, displayName: profile.displayName})
-            .save()
-            // the ".then" creates *another* "Model Instance"
-            .then(user => done(null, user));
-        }
-      })
+    async (accessToken, refreshToken, profile, done) => {
+      const existingUser = await User.findOne({googleId: profile.id});
+      if(existingUser) {
+        return done(null, existingUser);
+      } 
+
+      const user = await new User({googleId: profile.id}).save();
+      done(null, user);
     }
   )
 );
+
+// // using a promise looks like this:
+// (accessToken, refreshToken, profile, done) => {
+//   User.findOne({googleId: profile.id}).then((existingUser) => {
+//     if(existingUser) {
+//       done(null, existingUser);
+//     } else {
+//       // calling "new User()" creates a new mongoose "Model Instance" representing a single record inside our collection
+//       new User({googleId: profile.id, displayName: profile.displayName})
+//         .save()
+//         // the ".then" creates *another* "Model Instance"
+//         .then(user => done(null, user));
+//     }
+//   })
+// }

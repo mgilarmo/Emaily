@@ -6,12 +6,6 @@ const keys = require('./config/keys');
 require('./models/User');
 require('./services/passport');
 
-// npm install --save express
-// ...mongoose
-// ...passport
-// ...cookie-session
-
-
 mongoose.connect(keys.mongoURI);
 
 const app = express();
