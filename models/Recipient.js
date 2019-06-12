@@ -8,4 +8,4 @@ const recipientSchema = new Schema({
 
 module.exports = recipientSchema;
 
-// this file needs to be required in Survey.js since it serves as a subdocument collection
+// this file needs to be required in Survey.js (not index.js) since it serves as a subdocument collection

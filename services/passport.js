@@ -16,6 +16,7 @@ passport.deserializeUser((id, done) => {
     });
 });
 
+// this process is similar for adding any other strategy: Facebook, Twitter, GitHub, etc.
 passport.use(
   new GoogleStrategy(
     {

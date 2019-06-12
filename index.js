@@ -5,7 +5,7 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 require('./models/User');
-require('./models/Surveys');
+require('./models/Survey');
 require('./services/passport');
 
 mongoose.connect(keys.mongoURI);
@@ -14,6 +14,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
+// specifies how long the cookie should be remembered on the user's computer
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60  * 60 * 1000,
@@ -24,7 +25,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// require in all the routes
+// require() in all the routes
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
 require('./routes/surveyRoutes')(app);
