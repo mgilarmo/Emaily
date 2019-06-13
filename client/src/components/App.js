@@ -15,6 +15,7 @@ class App extends React.Component {
   }
 
   render() {
+    // window.history.pushState("","","/shgor")
     return(
       <div className="container">
         <BrowserRouter>
@@ -23,6 +24,7 @@ class App extends React.Component {
             <Route exact path='/' component={Landing} />
             <Route exact path='/surveys' component={Dashboard} />
             <Route exact path='/surveys/new' component={SurveyNew} />
+
           </div>
         </BrowserRouter>
       </div>
